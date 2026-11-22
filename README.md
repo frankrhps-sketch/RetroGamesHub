@@ -1,8 +1,7 @@
 # RetroGamesHub
-#### Video Demo: [https://youtu.be](https://www.youtube.com/watch?v=-_SCQalRPbQ)
-#### GitHub: frankrhps-sketch
+#### Video Demo: [https://youtu.be](https://youtube.com)
+#### GitHub: [frankrhps-sketch](https://github.com)
 #### Description:
-
 
 **RetroGamesHub** is a portable, browser-based retro gaming library and emulation hub built with Python, Flask, SQLite, HTML/CSS, and JavaScript. Designed to be accessible to everyday, non-technical users while remaining extensible for developers, the application lets anyone upload legally owned or homebrew ROM files across 16+ classic consoles (or specify any custom Libretro/EmulatorJS core), play directly in any mobile, tablet, or desktop web browser, and cast or sync their session to a television or secondary screen.
 
@@ -18,33 +17,31 @@
   - **Everyday User Mode:** Includes an in-app **📺 Cast to TV** guide modal supporting standard browser tab casting (Chromecast/Google TV) as well as a built-in **TV Mode (`/receiver`)** that syncs live over Wi-Fi with any Smart TV, console, or second-monitor browser.
   - **Developer Mode:** Supports custom Google Cast Web Receiver Application IDs via `config.py`, environment variables, or an in-browser `localStorage` configurator (`⚙️ Developer Cast ID`) inside the Cast modal.
 - **Portable Auto-Setup:** Automatically creates the SQLite database (`games.db`) and required upload folders on first launch so anyone can download and run the application immediately.
+
 ---
 
 ## Project Structure
 
-
-```text
-project/
-├── app.py                  # Main Flask application, routes, custom console handler, and JSON sync API
-├── config.py               # Centralized settings for paths, allowed extensions, 16 console cores, and Cast IDs
-├── requirements.txt        # Python package dependencies (Flask, Werkzeug)
-├── README.md               # Project documentation, setup instructions, and attributions
-├── .gitignore              # Excludes local databases, EmulatorJS binaries, and user-uploaded ROMs
-├── static/
-│   ├── styles.css          # Responsive dark-themed styling for mobile, tablet, desktop, and TV screens
-│   ├── sender.js           # Client-side casting logic, Cast Help modal controller, and localStorage ID manager
-│   ├── receiver.js         # TV display listener supporting both Google Cast SDK messages and Flask API polling
-│   ├── gamepad.js          # HTML5 Gamepad API script enabling USB/Bluetooth controller navigation on the menu
-│   ├── covers/             # Directory storing uploaded game box art
-│   ├── roms/               # Directory storing uploaded ROM files
-│   └── emulatorjs/         # Local copy of EmulatorJS assets (downloaded during setup)
-└── templates/
-    ├── layout.html         # Base Jinja template with responsive viewport, navbar, and Cast guide dialog
-    ├── index.html          # Main game library grid with search bar, dynamic console filter, Play, and Cast buttons
-    ├── upload.html         # Form interface for uploading ROMs, cover art, or custom console/core pairs
-    ├── play.html           # Fullscreen EmulatorJS player configured dynamically per console core
-    └── receiver.html       # Clutter-free widescreen TV display for Chromecast and second-screen browsers
-
+    project/
+    ├── app.py                  # Main Flask application, routes, custom console handler, and JSON sync API
+    ├── config.py               # Centralized settings for paths, allowed extensions, 16 console cores, and Cast IDs
+    ├── requirements.txt        # Python package dependencies (Flask, Werkzeug)
+    ├── README.md               # Project documentation, setup instructions, and attributions
+    ├── .gitignore              # Excludes local databases, EmulatorJS binaries, and user-uploaded ROMs
+    ├── static/
+    │   ├── styles.css          # Responsive dark-themed styling for mobile, tablet, desktop, and TV screens
+    │   ├── sender.js           # Client-side casting logic, Cast Help modal controller, and localStorage ID manager
+    │   ├── receiver.js         # TV display listener supporting both Google Cast SDK messages and Flask API polling
+    │   ├── gamepad.js          # HTML5 Gamepad API script enabling USB/Bluetooth controller navigation on the menu
+    │   ├── covers/             # Directory storing uploaded game box art
+    │   ├── roms/               # Directory storing uploaded ROM files
+    │   └── emulatorjs/         # Local copy of EmulatorJS assets (downloaded during setup)
+    └── templates/
+        ├── layout.html         # Base Jinja template with responsive viewport, navbar, and Cast guide dialog
+        ├── index.html          # Main game library grid with search bar, dynamic console filter, Play, and Cast buttons
+        ├── upload.html         # Form interface for uploading ROMs, cover art, or custom console/core pairs
+        ├── play.html           # Fullscreen EmulatorJS player configured dynamically per console core
+        └── receiver.html       # Clutter-free widescreen TV display for Chromecast and second-screen browsers
 ---
 
 ## File-by-File Breakdown
@@ -75,30 +72,32 @@ project/
 ## Installation & Setup (Running Locally)
 
 1. **Clone or download the project folder** and navigate into it:
-   ```bash
-   cd project
-   ```
+
+       cd project
+
 2. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Download EmulatorJS assets** into `static/emulatorjs/`:
-   ```bash
-   URL="https://github.com""/EmulatorJS/EmulatorJS/archive/refs/heads/main.zip"
-   curl -L -o emulatorjs.zip "\$URL"
-   unzip -q emulatorjs.zip
-   mv EmulatorJS-main static/emulatorjs
-   rm emulatorjs.zip
-   ```
+
+       pip install -r requirements.txt
+
+3. **Download EmulatorJS assets into `static/emulatorjs/`:**
+
+       URL="https://github.com"
+       curl -L -o emulatorjs.zip "$URL"
+       unzip -q emulatorjs.zip
+       mv EmulatorJS-main static/emulatorjs
+       rm emulatorjs.zip
+
 4. **Start the Flask server:**
-   ```bash
-   python app.py
-   ```
+
+       python app.py
+
 5. **Open the application:** Visit `http://127.0.0.1:5000` in your browser, click **+ Add ROM** to upload a free homebrew or legally owned ROM (such as `2048.nes`), and click **▶ Play** or **📡 Cast**.
+
+---
 
 ## Credits & Attributions
 
-- **EmulatorJS:** Open-source browser-based RetroArch/Libretro emulation wrapper (EmulatorJS on GitHub).
-- **Google Cast Web Sender & Receiver SDKs:** Used for optional custom Chromecast integration (Google Cast Developers).
+- **EmulatorJS:** Open-source browser-based RetroArch/Libretro emulation wrapper ([EmulatorJS on GitHub](https://github.com)).
+- **Google Cast Web Sender & Receiver SDKs:** Used for optional custom Chromecast integration ([Google Cast Developers](https://google.com)).
 - **Flask & Werkzeug:** Python web framework and secure file upload utilities.
-- **Homebrew Testing ROM:** Tested using open-source NES homebrew *2048* (retrobrews/nes-games on GitHub).
+- **Homebrew Testing ROM:** Tested using open-source NES homebrew `2048` ([retrobrews/nes-games on GitHub](https://github.com)).
