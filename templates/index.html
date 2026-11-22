@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title %}RetroGamesHub — Game Library{% endblock %}
+
+{% block content %}
+<section class="filter-bar">
+    <form method="GET" action="{{ url_for('index') }}" class="filter-form" style="display: flex; gap: 0.75rem; flex-wrap: wrap; width: 100%;">
+        <select name="console" aria-label="Filter by Console" class="select-field" onchange="this.form.submit()">
+            <option value="">All Consoles</option>
+            {% for console in consoles %}
+                <option value="{{ console }}" {% if console == selected_console %}selected{% endif %}>
+                    {{ console }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search games..." aria-label="Search games" class="input-field">
+        <button type="submit" class="btn btn-secondary">Search</button>
+        {% if selected_console or search_query %}
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Clear</a>
+        {% endif %}
+    </form>
+</section>
+
+{% if games %}
+    <section class="game-grid" id="game-grid">
+        {% for game in games %}
+            <article class="game-card" tabindex="0" data-game-id="{{ game.id }}">
+                <div class="card-cover">
+                    {% if game.cover_filename %}
+                        <img src="{{ url_for('static', filename='covers/' + game.cover_filename) }}" alt="{{ game.title }} cover">
+                    {% else %}
+                        <div class="cover-placeholder">
+                            <span>{{ game.console }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <span class="console-badge">{{ game.console }}</span>
+                    <h2 class="game-title">{{ game.title }}</h2>
+                    <div class="card-actions">
+                        <a href="{{ url_for('play', game_id=game.id) }}" class="btn btn-play">▶ Play</a>
+                        <button type="button" class="btn btn-cast" data-game-id="{{ game.id }}">📡 Cast</button>
+                        <form method="POST" action="{{ url_for('delete_game', game_id=game.id) }}" onsubmit="return confirm('Delete {{ game.title }} from your library?');" style="margin: 0;">
+                            <button type="submit" class="btn btn-delete" title="Delete Game" aria-label="Delete {{ game.title }}">🗑️</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <div class="empty-state">
+        <h2>No games in your library yet!</h2>
+        <p>Upload a homebrew or legally owned ROM file to get started.</p>
+        <a href="{{ url_for('upload') }}" class="btn btn-primary">+ Add Your First Game</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}Playing {{ game.title }} — RetroGamesHub{% endblock %}
+
+{% block content %}
+<section class="player-wrapper">
+    <div class="player-header">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">← Back to Library</a>
+        <div class="player-meta">
+            <h1>{{ game.title }}</h1>
+            <span class="console-badge">{{ game.console }}</span>
+        </div>
+        <button type="button" class="btn btn-cast" data-game-id="{{ game.id }}">📡 Cast to TV</button>
+    </div>
+
+    <div id="game-container" style="width: 100%; max-width: 900px; height: 600px; margin: 1rem auto; background: #000; border-radius: 12px; overflow: hidden;">
+        <div id="game"></div>
+    </div>
+
+    <p class="subtitle" style="text-align: center;">
+        🎮 Plug in or pair a Bluetooth/USB controller, use your keyboard, or tap the on-screen touch controls.
+    </p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    EJS_player = "#game";
+    EJS_core = "{{ game.core }}";
+    EJS_gameName = "{{ game.title }}";
+    EJS_gameUrl = "{{ url_for('static', filename='roms/' + game.rom_filename) }}";
+    EJS_pathtodata = "{{ url_for('static', filename='emulatorjs/data/') }}";
+    EJS_startOnLoaded = true;
+    EJS_threads = false;
+</script>
+<script src="{{ url_for('static', filename='emulatorjs/data/loader.js') }}"></script>
+{% endblock %}

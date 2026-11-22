@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Add Game — RetroGamesHub{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <h1>Add a Retro Game</h1>
+    <p class="subtitle">Upload a ROM file (.nes, .sfc, .n64, .gba, .md, .bin, .zip) and optional box art.</p>
+
+    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
+        <label class="form-label">
+            Game Title *
+            <input type="text" name="title" required placeholder="e.g., 2048 Homebrew" class="input-field">
+        </label>
+
+        <label class="form-label">
+            Console System *
+            <select name="console" id="console-select" required class="select-field">
+                <option value="" disabled selected>Select a console...</option>
+                {% for console in consoles %}
+                    <option value="{{ console }}">{{ console }}</option>
+                {% endfor %}
+                <option value="custom">➕ Other / Custom Console...</option>
+            </select>
+        </label>
+
+        <!-- Hidden unless "Other / Custom Console..." is selected -->
+        <div id="custom-console-fields" style="display: none; flex-direction: column; gap: 0.85rem; padding: 1rem; background: var(--bg); border-radius: 8px; border: 1px solid var(--border);">
+            <label class="form-label">
+                Custom Console Name *
+                <input type="text" name="custom_console" id="custom-console-input" placeholder="e.g., PlayStation Portable" class="input-field">
+            </label>
+            <label class="form-label">
+                EmulatorJS Core ID *
+                <input type="text" name="custom_core" id="custom-core-input" placeholder="e.g., psp, saturn, lynx, coleco" class="input-field">
+                <small style="color: var(--text-muted); font-weight: 400;">
+                    Enter the matching Libretro/EmulatorJS core name (such as <code>psp</code>, <code>segaSaturn</code>, or <code>lynx</code>).
+                </small>
+            </label>
+        </div>
+
+        <label class="form-label">
+            ROM File *
+            <input type="file" name="rom_file" required accept=".nes,.smc,.sfc,.n64,.z64,.v64,.gb,.gbc,.gba,.nds,.md,.gen,.sms,.gg,.32x,.bin,.cue,.iso,.chd,.pbp,.a26,.a78,.pce,.ngp,.ngc,.zip" class="file-input">
+        </label>
+
+        <label class="form-label">
+            Cover Image (Optional)
+            <input type="file" name="cover_file" accept=".png,.jpg,.jpeg,.webp" class="file-input">
+        </label>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Game</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const consoleSelect = document.getElementById("console-select");
+    const customFields = document.getElementById("custom-console-fields");
+    const customConsoleInput = document.getElementById("custom-console-input");
+    const customCoreInput = document.getElementById("custom-core-input");
+
+    consoleSelect.addEventListener("change", () => {
+        const isCustom = consoleSelect.value === "custom";
+        customFields.style.display = isCustom ? "flex" : "none";
+        customConsoleInput.required = isCustom;
+        customCoreInput.required = isCustom;
+    });
+</script>
+{% endblock %}

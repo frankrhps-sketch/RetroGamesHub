@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}RetroGamesHub{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕹️</text></svg>">
+    <!-- Google Cast Sender SDK (loads safely even if offline or without Chromecast) -->
+    <script src="https://gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a href="{{ url_for('index') }}" class="brand">🕹️ RetroGamesHub</a>
+                    <nav class="nav-actions">
+            <a href="{{ url_for('upload') }}" class="btn btn-primary">+ Add ROM</a>
+            <button type="button" id="cast-help-btn" class="btn btn-secondary">❓ Cast Guide</button>
+            <!-- Native Google Cast Device Picker -->
+            <google-cast-launcher id="cast-btn" class="cast-button" title="Cast to Nearby Chromecast"></google-cast-launcher>
+        </nav>
+
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+            <!-- User-Friendly Cast Guide & Optional Developer Settings -->
+                <dialog id="cast-modal" style="background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; max-width: 480px; width: 90%; margin: auto;">
+            <h2 style="margin-bottom: 0.5rem;">📺 Cast RetroGamesHub to Your TV</h2>
+            <p class="subtitle" style="margin-bottom: 1rem;">Connect to a nearby Chromecast or second screen:</p>
+
+            <div style="background: var(--bg); padding: 1rem; border-radius: 10px; margin-bottom: 0.85rem; text-align: left;">
+                <strong>Option 1: Nearby Chromecast / Google TV</strong>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Click the <strong>Cast icon</strong> in the top-right bar (or right-click anywhere on the page → <strong>Cast...</strong> → set <strong>Sources</strong> to <strong>Cast tab</strong>) and select your TV.
+                </p>
+            </div>
+
+            <div style="background: var(--bg); padding: 1rem; border-radius: 10px; margin-bottom: 1.25rem; text-align: left;">
+                <strong>Option 2: Smart TV Browser or Second Screen</strong>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Open <a href="{{ url_for('receiver') }}" target="_blank" style="color: #a5b4fc;">TV Mode (/receiver)</a> on your TV's web browser, then tap <strong>📡 Cast</strong> on any game card here.
+                </p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <button type="button" id="set-cast-id-btn" class="btn btn-secondary" style="font-size: 0.8rem;">⚙️ Developer Cast ID</button>
+                <button type="button" id="close-cast-modal" class="btn btn-primary">Got It</button>
+            </div>
+        </dialog>
+
+    </main>
+
+    <script>
+        // Pass Cast App ID from Flask config to JavaScript
+        window.CAST_APP_ID = "{{ cast_app_id or '' }}";
+    </script>
+    <script src="{{ url_for('static', filename='sender.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='gamepad.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

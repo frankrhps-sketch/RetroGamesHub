@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroGamesHub — TV Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Google Cast Web Receiver Framework -->
+    <script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+</head>
+<body class="tv-body" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 2rem;">
+    <main id="tv-display" style="max-width: 800px; width: 100%;">
+        <div id="tv-idle">
+            <h1 style="font-size: 3rem; margin-bottom: 0.75rem;">🕹️ RetroGamesHub TV Mode</h1>
+            <p class="subtitle" style="font-size: 1.35rem;">
+                Ready to cast! Select a game on your phone, tablet, or computer and tap <strong>Cast</strong>.
+            </p>
+        </div>
+
+        <div id="tv-active" style="display: none;">
+            <div id="tv-cover" style="max-width: 360px; margin: 0 auto 1.5rem; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6);"></div>
+            <span id="tv-console" class="console-badge" style="font-size: 1rem; padding: 0.35rem 1rem;"></span>
+            <h1 id="tv-title" style="font-size: 2.75rem; margin: 0.75rem 0;"></h1>
+            <a id="tv-launch-btn" href="#" class="btn btn-play" style="font-size: 1.2rem; padding: 0.85rem 2rem; margin-top: 1rem;">▶ Launch Game Here</a>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='receiver.js') }}"></script>
+</body>
+</html>
